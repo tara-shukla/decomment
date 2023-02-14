@@ -159,6 +159,7 @@ void handle_eChar(char c, enum State *current){
 /* reads from input stream and writes to output stream after eliminating comments*/
 /*exit fails if in unterminated comment*/
 int main(){
+    /*
     enum State currentState;
     int line; 
     int c;
@@ -167,14 +168,15 @@ int main(){
     line = 0;
 
     while ((c=getchar()) !=EOF){
-        /*currentState = dfaStateCheck(c, &currentState,&line);*/
-        /*check about current being mod here if not current =*/
+        currentState = dfaStateCheck(c, &currentState,&line);
+        
     }
     if (currentState == sStar || currentState ==eStar|| currentState==star_bSlash){
-        /* revisit this*/
+        
         fprintf(stderr,("Error: unterminated comment on line %d"),line);
-        return -1; /*failure*/
+        return -1; 
     }
-    return 0; /*success*/
+    return 0; 
+    */
 }
 
