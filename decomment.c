@@ -163,7 +163,7 @@ int main(){
     }
     if (currentState == sStar || currentState ==eStar|| currentState==star_bSlash){
         /* revisit this*/
-        fprintf("failure: unterminated comment at file end, line "+line);
+        printf("failure: unterminated comment at file end, line "+line);
         return -1; /*failure*/
     }
     return 0; /*success*/
