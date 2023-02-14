@@ -124,22 +124,27 @@ void handle_sString(char c, enum State *current){
     if (c=='"') *current = eString;
     if (c=='\\') *current = dq_bSlash;
     else *current = sString;
+    putchar(c);
 }
 
 void handle_eString(char c, enum State *current){
     if (c=='/') *current = fSlash;
     else *current = normal;
+    putchar(c);
 }
 
 void handle_sChar(char c, enum State *current){
     if (c=='\'') *current =eChar;
     if (c=='\\') *current = sq_bSlash;
     else *current = sChar;
+    putchar(c);
 }
 
 void handle_eChar(char c, enum State *current){
     *current = normal; 
+    putchar(c);
 }
+
 
 /* reads from input stream and writes to output stream after eliminating comments*/
 /*exit fails if in unterminated comment*/
@@ -156,8 +161,9 @@ int main(){
         dfaStateCheck(c, &currentState,&line);
         /*check about current being mod here if not current =*/
     }
-    if (currentState == sStar || currentState ==eStar){/* revisit this*/
-        fprintf(stderr,"failure: unterminated comment at file end, line "+line);
+    if (currentState == sStar || currentState ==eStar|| currentState==star_bSlash){
+        /* revisit this*/
+        fprintf("failure: unterminated comment at file end, line "+line);
         return -1; /*failure*/
     }
     return 0; /*success*/

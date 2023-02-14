@@ -1,0 +1,14 @@
+normal (start)(accept)
+    
+fSlash (accept)
+    
+bSlash (accept)
+star_bSlash (fail)
+sq_bSlash (accept)
+dq_bSlash (accept)
+sStar (fail)
+eStar (fail)
+sString (accept)
+eString (accept)
+sChar (accept)
+eChar(accept)
