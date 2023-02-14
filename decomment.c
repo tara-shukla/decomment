@@ -181,9 +181,13 @@ int main () {
         }   
     }
 
-    if ((state == COM) || (state = MAYBE_ESC_COM)){
+    if (state==COM){
+        fprintf(stderr,("Error: unterminated comment on line %d"),line);
+        return EXIT_FAILURE;   
+    }
+    else if (state = MAYBE_ESC_COM){
         fprintf(stderr,("Error: unterminated comment on line %d"),line);
         return EXIT_FAILURE;
     }
-    return 0;
+    else return 0;
 }
