@@ -132,28 +132,28 @@ void handle_sString(char c, enum State *current){
     if (c=='"') *current = eString;
     if (c=='\\') *current = dq_bSlash;
     else *current = sString;
-    putchar(c);
+    /*putchar(c);*/
 }
 
 void handle_eString(char c, enum State *current){
     if (c=='/') *current = fSlash;
     if (c=='\\')*current = bSlash;
     else *current = normal;
-    putchar(c);
+    /*putchar(c);*/
 }
 
 void handle_sChar(char c, enum State *current){
     if (c=='\'') *current =eChar;
     if (c=='\\') *current = sq_bSlash;
     else *current = sChar;
-    putchar(c);
+    /*putchar(c);*/
 }
 
 void handle_eChar(char c, enum State *current){
     if (c=='/') *current = fSlash;
     if (c=='\\')*current = bSlash;
     else *current = normal; 
-    putchar(c);
+    /*putchar(c);*/
 }
 
 /* reads from input stream and writes to output stream after eliminating comments*/
