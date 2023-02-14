@@ -22,7 +22,7 @@ void handle_eChar(char c, enum State *current);
 
 
 void dfaStateCheck(char c, enum State *current,int *line){
-    if (c=='\n') *line++;
+    if (c=='\n') line++;
     if (*current == fSlash) handle_fSlash(c, current);/*do i need &s here ? idk*/
     if (*current == sStar) handle_sStar(c, current);
     if (*current ==eStar) handle_eStar(c,current);
@@ -100,21 +100,21 @@ void handle_bSlash(char c, enum State *current,int *line){
 
 void handle_sq_bSlash(char c, enum State *current,int *line){
     if (c=='n') {
-        *line++;
+        line++; /*these might need the pointer * but idk*/
         putchar('\n');
     }  
     *current = sChar;
 }
 void handle_dq_bSlash(char c, enum State *current,int *line){
     if (c=='n')  {
-        *line++;
+        line++;
         putchar('\n');
     }
     *current = sString;
 }
 void handle_star_bSlash(char c, enum State *current,int *line){
     if (c=='n') {
-        *line++;
+        line++;
         putchar('\n');
     }
     *current = sStar;
