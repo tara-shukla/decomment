@@ -13,7 +13,7 @@ enum Statetype handleNormalState(int c){
         state = STRING;
     }
     if (c=="/"){
-        state = FWD_SLASH; //maybe in fwd slash it's not a comment.. so print /
+        state = FWD_SLASH; 
     }
     if (c=='\''){
         putchar(c);
@@ -33,7 +33,7 @@ enum Statetype handleCharState(int c){
         state = NORMAL;
         putchar(c);
     }
-    if(c=="\\"){
+    if(c=='\\'){
         state = CHAR_ESC;
     }
     else {
@@ -69,23 +69,25 @@ enum Statetype handleStringEscState(int c){
 }
 enum Statetype handleFwdSlashState(int c){
     enum Statetype state;
-    if (c=="/") {
-        putchar(c);
+    if (c=='/') {
+        putchar('/');
         state = FWD_SLASH;
     }
     if (c=='"') {
+        putchar('/');
         putchar(c);
         state = STRING;
     }
-    if (c=="\'") {
+    if (c=='\'') {
+        putchar('/');
         putchar(c);
-        state= CHAR:
+        state= CHAR;
     }
-    if (c=="*") {
+    if (c=='*') {
         state = COM;
     }
     else {
-        putchar('/'); /*maybe*/
+        putchar('/'); 
         state = NORMAL;
     }
     return state;
