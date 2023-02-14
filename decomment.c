@@ -126,35 +126,35 @@ int main () {
         switch (state) {
             case NORMAL:
                 state = handleNormalState(c);
-                fprintf(stderr,("we in normal"));
+                fprintf(stderr,("n"));
                 break;
             case CHAR:
                 state = handleCharState(c);
-                fprintf(stderr,("we in char"));
+                fprintf(stderr,("char"));
                 break;
             
             case CHAR_ESC:
                 state = handleCharEscState(c);
-                fprintf(stderr,("we in charesc"));
+                fprintf(stderr,("charesc"));
                 break;
             case STRING:
                 state = handleStringState(c);
-                fprintf(stderr,("we in string"));
+                fprintf(stderr,("string"));
                 break;
             
             case STRING_ESC:
                 state = handleStringState(c);
-                fprintf(stderr,("we in stringesc"));
+                fprintf(stderr,("stringesc"));
                 break;
             
             case FWD_SLASH:
                 state = handleFwdSlashState(c);
-                fprintf(stderr,("we in fwdslash"));
+                fprintf(stderr,("fwdslash"));
                 break;
             
             case COM:
                 state = handleComState(c);
-                fprintf(stderr,("we in com"));
+                fprintf(stderr,("com"));
                 break;
             
             case MAYBE_ESC_COM:
@@ -165,9 +165,10 @@ int main () {
     }
 
     if ((state == COM) || (state = MAYBE_ESC_COM)){
+        fprintf(stderr, state);
         fprintf(stderr,("Error: unterminated comment on line %d"),line);
         return EXIT_FAILURE;
     }
-
+    else;
     return 0;
 }
