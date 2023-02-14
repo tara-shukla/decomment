@@ -143,32 +143,40 @@ int main () {
         switch (state) {
             case NORMAL:
                 state = handleNormalState(c);
+                fprintf(stderr,("norm"));
                 break;
             case CHAR:
                 state = handleCharState(c);
+                fprintf(stderr,("char"));
                 break;
             
             case CHAR_ESC:
                 state = handleCharEscState(c);
+                fprintf(stderr,("escchar"));
                 break;
             case STRING:
                 state = handleStringState(c);
+                fprintf(stderr,("str"));
                 break;
             
             case STRING_ESC:
                 state = handleStringState(c);
+                fprintf(stderr,("escstr"));
                 break;
             
             case FWD_SLASH:
                 state = handleFwdSlashState(c);
+                fprintf(stderr,("fwd"));
                 break;
             
             case COM:
                 state = handleComState(c);
+                fprintf(stderr,("com"));
                 break;
             
             case MAYBE_ESC_COM:
                 state = handleMaybeEscComState(c);
+                fprintf(stderr,("esccom"));
                 break;
         }   
     }
