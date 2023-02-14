@@ -167,7 +167,7 @@ int main(){
     line = 0;
 
     while ((c=getchar()) !=EOF){
-        //currentState = dfaStateCheck(c, &currentState,&line);
+        /*currentState = dfaStateCheck(c, &currentState,&line);*/
         /*check about current being mod here if not current =*/
     }
     if (currentState == sStar || currentState ==eStar|| currentState==star_bSlash){
