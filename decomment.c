@@ -36,6 +36,7 @@ int dfaStateCheck(char c, enum State *current,int *line){
     if (*current == dq_bSlash) handle_dq_bSlash(c,current,line);
     if (*current == star_bSlash) handle_star_bSlash(c,current,line);
     else if (*current == normal) handle_Norm(c, current);
+    else return -1; /*this should never happen, is just to avoid compile error*/
 }
 
  void handle_Norm(char c, enum State *current){
