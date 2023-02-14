@@ -182,7 +182,6 @@ int main(){
 
     while ((c=getchar()) !=EOF){
         currentState = dfaStateCheck(c, &currentState,&line);
-        putchar('i');
     }
     if (currentState == sStar || currentState ==eStar|| currentState==star_bSlash){
         
