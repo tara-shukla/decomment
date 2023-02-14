@@ -7,21 +7,32 @@ enum State{
     
 };
 
-/* function declarations*/
+/* handles normal (raw code) state, sets current depending on c*/
 void handle_Norm(char c, enum State *current);
+/* handles forward slash state, sets current depending on c*/
 void handle_fSlash(char c, enum State *current);
+/* handles asterisk start state*/
 void handle_sStar(char c, enum State *current);
+/* handles asterisk inside comment (tentative end comment) state*/
 void handle_eStar(char c, enum State *current);
+/* handles backslash state from in raw code*/
 void handle_bSlash(char c, enum State *current,int *line);
+/* handles backslash when in character state*/
 void handle_sq_bSlash(char c, enum State *current,int *line);
+/* handles backslash when in string*/
 void handle_dq_bSlash(char c, enum State *current,int *line);
+/* handles backslash when in comment*/
 void handle_star_bSlash(char c, enum State *current,int *line);
+/* handles start of string state*/
 void handle_sString(char c, enum State *current);
+/* handles end of string state*/
 void handle_eString(char c, enum State *current);
+/* handles start of char state*/
 void handle_sChar(char c, enum State *current);
+/* handles end of char state*/
 void handle_eChar(char c, enum State *current);
 
-
+/*function to check and redirect the state of the DFA*/
 int dfaStateCheck(char c, enum State *current,int *line){
     if (c=='\n') line++;
     if (*current == normal) handle_Norm(c, current);
@@ -113,6 +124,7 @@ void handle_sq_bSlash(char c, enum State *current,int *line){
     }  
     *current = sChar;
 }
+
 void handle_dq_bSlash(char c, enum State *current,int *line){
     if (c=='n')  {
         line++;
@@ -120,6 +132,7 @@ void handle_dq_bSlash(char c, enum State *current,int *line){
     }
     *current = sString;
 }
+
 void handle_star_bSlash(char c, enum State *current,int *line){
     if (c=='n') {
         line++;
@@ -156,7 +169,7 @@ void handle_eChar(char c, enum State *current){
     putchar(c);
 }
 
-/* reads from input stream and writes to output stream after eliminating comments*/
+/* reads from input stream and writes to standard error stream after eliminating comments*/
 /*exit fails if in unterminated comment*/
 int main(){
     
@@ -169,7 +182,7 @@ int main(){
 
     while ((c=getchar()) !=EOF){
         currentState = dfaStateCheck(c, &currentState,&line);
-        
+        putchar('i');
     }
     if (currentState == sStar || currentState ==eStar|| currentState==star_bSlash){
         
