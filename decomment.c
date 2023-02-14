@@ -110,6 +110,9 @@ enum Statetype handleFwdSlashState(int c){
 enum Statetype handleComState(int c){
     enum Statetype state;
     if (c=='*') state = MAYBE_ESC_COM;
+    else if (c=='\n'){
+        putchar('\n');
+    } 
     else state = COM;
     return state;
 }
