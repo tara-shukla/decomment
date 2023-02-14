@@ -41,11 +41,13 @@ int dfaStateCheck(char c, enum State *current,int *line){
 
  void handle_Norm(char c, enum State *current){
     /*from normal state, transitions possible through bSlash, fSlash, sString, eString*/
+    
     if (c=='\\'){
         *current = bSlash;
     }
 
     if (c=='/'){
+        putchar('f');
         *current = fSlash;
     }
 
@@ -67,7 +69,10 @@ int dfaStateCheck(char c, enum State *current,int *line){
 
  void handle_fSlash(char c, enum State *current){
     /*from fSlash, transitions possible through sStar, normal*/
-    if (c=='*') *current = sStar;
+    if (c=='*') {
+        putchar('c');
+        *current = sStar;
+    }
     else {
         if (c=='/') *current = fSlash;
         *current = normal;
@@ -164,7 +169,6 @@ int main(){
 
     while ((c=getchar()) !=EOF){
         currentState = dfaStateCheck(c, &currentState,&line);
-        putchar(currentState);
         /*check about current being mod here if not current =*/
     }
     if (currentState == sStar || currentState ==eStar|| currentState==star_bSlash){
