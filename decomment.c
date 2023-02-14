@@ -87,7 +87,7 @@ void handle_eStar(char c, enum State *current){
 }
 
 void handle_bSlash(char c, enum State *current){
-    if (c=='n') putchar('/n');
+    if (c=='n') putchar('\n');
     else {
         putchar('\\');
         putchar(c); 
@@ -96,15 +96,15 @@ void handle_bSlash(char c, enum State *current){
 }
 
 void handle_sq_bSlash(char c, enum State *current){
-    if (c=='n') putchar('/n');  
+    if (c=='n') putchar('\n');  
     *current = sChar;
 }
 void handle_dq_bSlash(char c, enum State *current){
-    if (c=='n') putchar('/n');
+    if (c=='n') putchar('\n');
     *current = sString;
 }
 void handle_star_bSlash(char c, enum State *current){
-    if (c=='n') putchar('/n');
+    if (c=='n') putchar('\n');
     *current = sStar;
 }
 
@@ -126,7 +126,7 @@ void handle_sChar(char c, enum State *current){
 }
 
 void handle_eChar(char c, enum State *current){
-    *current = normal; /*handle normal?*/
+    *current = normal; 
 }
 
 
