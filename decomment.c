@@ -43,7 +43,8 @@ enum Statetype handleCharState(int c){
     return state;
 }
 enum Statetype handleCharEscState(int c){
-    enum Statetype state = CHAR;
+    enum Statetype state;
+    state = CHAR;
     if (c=='n') {
         putchar('\n');
         /*add smthg abt lien here*/
@@ -60,7 +61,8 @@ enum Statetype handleStringState(int c){
     return state;
 }
 enum Statetype handleStringEscState(int c){
-    enum Statetype state = STRING;
+    enum Statetype state;
+    state = STRING;
     if (c=='n') {
         putchar('\n');
         /*add smthg abt lien here*/
@@ -68,7 +70,6 @@ enum Statetype handleStringEscState(int c){
     return state;
 }
 enum Statetype handleFwdSlashState(int c){
-    fprintf(stderr,("we in fwdslash"));
     enum Statetype state;
     if (c=='/') {
         putchar('/');
@@ -143,6 +144,7 @@ int main () {
             
             case FWD_SLASH:
                 state = handleFwdSlashState(c);
+                fprintf(stderr,("we in fwdslash"));
                 break;
             
             case COM:
