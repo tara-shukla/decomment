@@ -1,14 +1,43 @@
 normal (start)(accept)
-    
+    ('\') -> bSlash 
+    ('/') -> fSlash
+    ('"') -> sString
+    (('\'')) -> sChar
 fSlash (accept)
-    
+    ('*') -> sStar
+    else normal
 bSlash (accept)
+    if ('n') newline
+    else normal  
 star_bSlash (fail)
+    if ('n') newline
+    else sStar 
 sq_bSlash (accept)
+    if ('n') newline
+    else sChar
 dq_bSlash (accept)
+    if ('n') newline
+    else sString 
 sStar (fail)
+    if ('\\') star_bSlash
+    if ('*') esStar
+    else sStar
 eStar (fail)
+    if ('/') normal
+    else sStar
 sString (accept)
+    if ('"') eString
+    if ('\\') dq_bSlash
+    else sString
 eString (accept)
+    if ('/') fSlash
+    if ('\\')bSlash;
+    else normal
 sChar (accept)
+    if (('\'')) eChar
+    if ('\\') sq_bSlash
+    else sChar
 eChar(accept)
+    if ('/')  fSlash
+    if ('\\')bSlash
+    else normal

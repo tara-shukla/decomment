@@ -132,6 +132,7 @@ void handle_sString(char c, enum State *current){
 
 void handle_eString(char c, enum State *current){
     if (c=='/') *current = fSlash;
+    if (c=='\\')current = bSlash;
     else *current = normal;
     putchar(c);
 }
@@ -144,7 +145,9 @@ void handle_sChar(char c, enum State *current){
 }
 
 void handle_eChar(char c, enum State *current){
-    *current = normal; 
+    if (c=='/') current = fSlash;
+    if (c=='\\')current = bSlash;
+    else *current = normal; 
     putchar(c);
 }
 
