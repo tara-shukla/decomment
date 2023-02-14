@@ -164,7 +164,7 @@ int main(){
     }
     if (currentState == sStar || currentState ==eStar|| currentState==star_bSlash){
         /* revisit this*/
-        fprintf(stderr,"Error: unterminated comment on line"+line);
+        fprintf(stderr,("Error: unterminated comment on line %d"),line);
         return -1; /*failure*/
     }
     return 0; /*success*/
