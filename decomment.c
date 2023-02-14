@@ -63,9 +63,9 @@ int checkState(char c, enum State *current){
 
  void handle_fSlash(char c, enum State *current){
     /*from fSlash, transitions possible through sStar, normal*/
-    if (c=='*') current = sStar;
+    if (c=='*') *current = sStar;
     else {
-        if (c=='/') current = fSlash;
+        if (c=='/') *current = fSlash;
         *current = normal;
         putchar('/');
         putchar(c);
