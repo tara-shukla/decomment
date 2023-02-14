@@ -1,14 +1,18 @@
 normal (start)(accept)
-    ('\') -> bSlash 
+    //('\') -> bSlash 
     ('/') -> fSlash
     ('"') -> sString
     (('\'')) -> sChar
+    other normal
 fSlash (accept)
     ('*') -> sStar
     else normal
+    //double and single quote and fwd slash 
+//no bslash 
 bSlash (accept)
     if ('n') newline
     else normal  
+//ignore bslash in comments
 star_bSlash (fail)
     if ('n') newline
     else sStar 

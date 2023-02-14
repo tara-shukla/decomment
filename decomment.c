@@ -1,193 +1,154 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-enum State{
-    normal, fSlash,bSlash, star_bSlash, sq_bSlash,
-     dq_bSlash, sStar, eStar, sString, eString, sChar, eChar
-    
-};
 
-/* handles normal (raw code) state, sets current depending on c*/
-void handle_Norm(char c, enum State *current);
-/* handles forward slash state, sets current depending on c*/
-void handle_fSlash(char c, enum State *current);
-/* handles asterisk start state*/
-void handle_sStar(char c, enum State *current);
-/* handles asterisk inside comment (tentative end comment) state*/
-void handle_eStar(char c, enum State *current);
-/* handles backslash state from in raw code*/
-void handle_bSlash(char c, enum State *current,int *line);
-/* handles backslash when in character state*/
-void handle_sq_bSlash(char c, enum State *current,int *line);
-/* handles backslash when in string*/
-void handle_dq_bSlash(char c, enum State *current,int *line);
-/* handles backslash when in comment*/
-void handle_star_bSlash(char c, enum State *current,int *line);
-/* handles start of string state*/
-void handle_sString(char c, enum State *current);
-/* handles end of string state*/
-void handle_eString(char c, enum State *current);
-/* handles start of char state*/
-void handle_sChar(char c, enum State *current);
-/* handles end of char state*/
-void handle_eChar(char c, enum State *current);
 
-/*function to check and redirect the state of the DFA*/
-int dfaStateCheck(char c, enum State *current,int *line){
-    if (c=='\n') line++;
-    if (*current == normal) handle_Norm(c, current);
-    else{
-        if (*current == fSlash) handle_fSlash(c, current);/*do i need &s here ? idk*/
-        if (*current == sStar) handle_sStar(c, current);
-        if (*current ==eStar) handle_eStar(c,current);
-        if (*current ==sString) handle_sString(c,current);
-        if (*current == eString) handle_eString(c,current);
-        if (*current == eChar) handle_eChar(c,current);
-        if (*current == sChar) handle_sChar(c,current);
-        if (*current == bSlash) handle_bSlash(c,current,line);
-        if (*current == sq_bSlash) handle_sq_bSlash(c,current,line);
-        if (*current == dq_bSlash) handle_dq_bSlash(c,current,line);
-        if (*current == star_bSlash) handle_star_bSlash(c,current,line);
-    }
-    return -1; /*this should never happen, is just to avoid compile error*/
-}
+enum Statetype{NORMAL,CHAR,STRING,CHAR_ESC, STRING_ESC,FWD_SLASH,COM,MAYBE_ESC_COM};
 
- void handle_Norm(char c, enum State *current){
-    /*from normal state, transitions possible through bSlash, fSlash, sString, eString*/
-    if (c=='\\'){
-        *current = bSlash;
-    }
 
-    if (c=='/'){
-        *current = fSlash;
-    }
-
-    if (c=='"'){
-        *current = sString;
+enum Statetype handleNormalState(int c){
+    enum Statetype state;
+    if (c=='"') {
         putchar(c);
+        state = STRING;
     }
-
+    if (c=="/"){
+        state = FWD_SLASH; //maybe in fwd slash it's not a comment.. so print /
+    }
     if (c=='\''){
-        *current = sChar;
+        putchar(c);
+        state = CHAR;
+    }
+     else {
+        putchar(c);
+        state = NORMAL;
+    }
+    return state;
+
+}
+
+enum Statetype handleCharState(int c){
+    enum Statetype state;
+    if (c =='\'') {
+        state = NORMAL;
         putchar(c);
     }
-
+    if(c=="\\"){
+        state = CHAR_ESC;
+    }
     else {
-        *current = normal;
+        state = CHAR;
         putchar(c);
     }
+    return state;
 }
-
- void handle_fSlash(char c, enum State *current){
-    /*from fSlash, transitions possible through sStar, normal*/
-    if (c=='*') {
-        *current = sStar;
+enum Statetype handleCharEscState(int c){
+    enum Statetype state = CHAR;
+    if (c=='n') {
+        putchar('\n');
+        /*add smthg abt lien here*/
     }
-    else {
-        if (c=='/') *current = fSlash;
-        *current = normal;
-        putchar('/');
+    return state;
+}
+enum Statetype handleStringState(int c){
+    enum Statetype state;
+    if (c=='\\') state = STRING_ESC;
+    if (c=='"') {
         putchar(c);
+        state = NORMAL;
     }
+    return state;
 }
-
-void handle_sStar(char c, enum State *current){
-    if (c == '*') *current = eStar;
-    if (c=='\\') *current = star_bSlash;
-    else *current = sStar;
-}
-
-void handle_eStar(char c, enum State *current){
-    if (c == '/') {
-        *current = normal;
-        putchar(' ');
-    }
-    else *current = sStar;
-}
-
-void handle_bSlash(char c, enum State *current,int *line){
+enum Statetype handleStringEscState(int c){
+    enum Statetype state = STRING;
     if (c=='n') {
-        line++;
         putchar('\n');
+        /*add smthg abt lien here*/
+    }
+    return state;
+}
+enum Statetype handleFwdSlashState(int c){
+    enum Statetype state;
+    if (c=="/") {
+        putchar(c);
+        state = FWD_SLASH;
+    }
+    if (c=='"') {
+        putchar(c);
+        state = STRING;
+    }
+    if (c=="\'") {
+        putchar(c);
+        state= CHAR:
+    }
+    if (c=="*") {
+        state = COM;
     }
     else {
-        putchar('\\');
-        putchar(c); 
-        *current = normal;
+        putchar('/'); /*maybe*/
+        state = NORMAL;
     }
+    return state;
+}
+enum Statetype handleComState(int c){
+    enum Statetype state;
+    if (c=='*') state = MAYBE_ESC_COM;
+    else state = COM;
+    return state;
+}
+enum Statetype handleMaybeExitComState(int c){
+    enum Statetype state;
+    if (c=='*') state = MAYBE_ESC_COM;
+    if (c=='/') state = NORMAL;
+    else state = COM;
+    return state;
 }
 
-void handle_sq_bSlash(char c, enum State *current,int *line){
-    if (c=='n') {
-        line++; /*these might need the pointer * but idk*/
-        putchar('\n');
-    }  
-    *current = sChar;
-}
-
-void handle_dq_bSlash(char c, enum State *current,int *line){
-    if (c=='n')  {
-        line++;
-        putchar('\n');
-    }
-    *current = sString;
-}
-
-void handle_star_bSlash(char c, enum State *current,int *line){
-    if (c=='n') {
-        line++;
-        putchar('\n');
-    }
-    *current = sStar;
-}
-
-void handle_sString(char c, enum State *current){
-    if (c=='"') *current = eString;
-    if (c=='\\') *current = dq_bSlash;
-    else *current = sString;
-    putchar(c);
-}
-
-void handle_eString(char c, enum State *current){
-    if (c=='/') *current = fSlash;
-    if (c=='\\')*current = bSlash;
-    else *current = normal;
-    putchar(c);
-}
-
-void handle_sChar(char c, enum State *current){
-    if (c=='\'') *current =eChar;
-    if (c=='\\') *current = sq_bSlash;
-    else *current = sChar;
-    putchar(c);
-}
-
-void handle_eChar(char c, enum State *current){
-    if (c=='/') *current = fSlash;
-    if (c=='\\')*current = bSlash;
-    else *current = normal; 
-    putchar(c);
-}
-
-/* reads from input stream and writes to standard error stream after eliminating comments*/
+/* reads from input stream and writes to output stream after eliminating comments*/
 /*exit fails if in unterminated comment*/
-int main(){
-    
-    enum State currentState;
-    int line; 
+int main (void)
+{
     int c;
+    enum Statetype state = NORMAL;
+    int line = 0;
 
-    currentState = normal;
-    line = 0;
-
-    while ((c=getchar()) !=EOF){
-        currentState = dfaStateCheck(c, &currentState,&line);
+    while ((c = getchar()) != EOF) {
+        switch (state) {
+            case NORMAL:
+                state = handleNormalState(c);
+                break;
+            case CHAR:
+                state = handleCharState(c);
+                break;
+            
+            case CHAR_ESC:
+                state = handleCharEscState(c);
+                break;
+            case STRING:
+                state = handleStringState(c);
+                break;
+            
+            case STRING_ESC:
+                state = handleStringState(c);
+                break;
+            
+            case FWD_SLASH:
+                state = handleFwdSlashState(c);
+                break;
+            
+            case COM:
+                state = handleComState(c);
+                break;
+            
+            case MAYBE_ESC_COM:
+                state = handleMaybeEscComState(c);
+                break;
+        }   
     }
-    if (currentState == sStar || currentState ==eStar|| currentState==star_bSlash){
-        
+
+    if ((state == COM) || (state = MAYBE_ESC_COM)){
         fprintf(stderr,("Error: unterminated comment on line %d"),line);
-        return -1; 
+        return EXIT_FAILURE;
     }
-    return 0; 
+    return 0;
 }
-
