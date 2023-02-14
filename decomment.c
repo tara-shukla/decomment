@@ -68,6 +68,7 @@ enum Statetype handleStringEscState(int c){
     return state;
 }
 enum Statetype handleFwdSlashState(int c){
+    fprintf(stderr,("we in fwdslash"));
     enum Statetype state;
     if (c=='/') {
         putchar('/');
@@ -84,6 +85,7 @@ enum Statetype handleFwdSlashState(int c){
         state= CHAR;
     }
     if (c=='*') {
+
         state = COM;
     }
     else {

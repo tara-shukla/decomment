@@ -1,6 +1,9 @@
-Normal
-   ('"') -> 
-Char
+NORMAL
+   ('"') -> STRING
+   (('\'')) -> CHAR
+   ('/') -> FWDSLASH
+CHAR
+    
 EscChar
 String
 EscString
