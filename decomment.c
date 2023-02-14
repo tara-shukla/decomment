@@ -170,6 +170,7 @@ int main(){
     line = 0;
 
     while ((c=getchar()) !=EOF){
+        putchar('h');
         currentState = dfaStateCheck(c, &currentState,&line);
         /*check about current being mod here if not current =*/
     }
