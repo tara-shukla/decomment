@@ -30,14 +30,17 @@ enum Statetype handleNormalState(int c){
 enum Statetype handleCharState(int c){
     enum Statetype state;
     if (c =='\'') {
+        putchar('b');
         state = NORMAL;
         putchar(c);
     }
     if(c=='\\'){
         state = CHAR_ESC;
+        putchar('f');
     }
     else {
         state = CHAR;
+        putchar('a');
         putchar(c);
     }
     return state;
