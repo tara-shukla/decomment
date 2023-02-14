@@ -24,24 +24,26 @@ void handle_eChar(char c, enum State *current);
 
 int dfaStateCheck(char c, enum State *current,int *line){
     if (c=='\n') line++;
-    if (*current == fSlash) handle_fSlash(c, current);/*do i need &s here ? idk*/
-    if (*current == sStar) handle_sStar(c, current);
-    if (*current ==eStar) handle_eStar(c,current);
-    if (*current ==sString) handle_sString(c,current);
-    if (*current == eString) handle_eString(c,current);
-    if (*current == eChar) handle_eChar(c,current);
-    if (*current == sChar) handle_sChar(c,current);
-    if (*current == bSlash) handle_bSlash(c,current,line);
-    if (*current == sq_bSlash) handle_sq_bSlash(c,current,line);
-    if (*current == dq_bSlash) handle_dq_bSlash(c,current,line);
-    if (*current == star_bSlash) handle_star_bSlash(c,current,line);
-    else if (*current == normal) handle_Norm(c, current);
+    if (*current == normal) handle_Norm(c, current);
+    else{
+        if (*current == fSlash) handle_fSlash(c, current);/*do i need &s here ? idk*/
+        if (*current == sStar) handle_sStar(c, current);
+        if (*current ==eStar) handle_eStar(c,current);
+        if (*current ==sString) handle_sString(c,current);
+        if (*current == eString) handle_eString(c,current);
+        if (*current == eChar) handle_eChar(c,current);
+        if (*current == sChar) handle_sChar(c,current);
+        if (*current == bSlash) handle_bSlash(c,current,line);
+        if (*current == sq_bSlash) handle_sq_bSlash(c,current,line);
+        if (*current == dq_bSlash) handle_dq_bSlash(c,current,line);
+        if (*current == star_bSlash) handle_star_bSlash(c,current,line);
+    }
     return -1; /*this should never happen, is just to avoid compile error*/
 }
 
  void handle_Norm(char c, enum State *current){
     /*from normal state, transitions possible through bSlash, fSlash, sString, eString*/
-    
+    putchar('a');
     if (c=='\\'){
         *current = bSlash;
     }
