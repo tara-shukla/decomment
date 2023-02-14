@@ -53,12 +53,12 @@ int dfaStateCheck(char c, enum State *current,int *line){
 
     if (c=='"'){
         *current = sString;
-        putchar(c);
+        /*putchar(c);*/
     }
 
     if (c=='\''){
         *current = sChar;
-        putchar(c);
+        /*putchar(c);*/
     }
 
     else {
@@ -75,8 +75,8 @@ int dfaStateCheck(char c, enum State *current,int *line){
     else {
         if (c=='/') *current = fSlash;
         *current = normal;
-        putchar('/');
-        putchar(c);
+        /*putchar('/');
+        putchar(c);*/
     }
 }
 
@@ -100,8 +100,8 @@ void handle_bSlash(char c, enum State *current,int *line){
         putchar('\n');
     }
     else {
-        putchar('\\');
-        putchar(c); 
+        /*putchar('\\');
+        putchar(c); */
         *current = normal;
     }
 }
