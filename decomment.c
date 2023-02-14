@@ -23,10 +23,10 @@ void handle_eChar(char c, enum State current);
 
 int checkState(char c, enum State *current){
     /*if (c=='\n') line++;*/
-    if (current == normal) handle_Norm(c, &current);
-    if (current == fSlash) handle_fSlash(c, &current);
-    if (current == sStar) handle_sStar(c, &current);
-    if (current ==eStar) handle_eStar(c,&current);
+    if (*current == normal) handle_Norm(c, current);
+    if (*current == fSlash) handle_fSlash(c, current);
+    if (*current == sStar) handle_sStar(c, current);
+    if (*current ==eStar) handle_eStar(c,current);
     if (current ==sString) handle_sString(c,current);
     if (current == eString) handle_eString(c,current);
     if (current == eChar) handle_eChar(c,current);
