@@ -159,7 +159,7 @@ void handle_eChar(char c, enum State *current){
 /* reads from input stream and writes to output stream after eliminating comments*/
 /*exit fails if in unterminated comment*/
 int main(){
-    /*
+    
     enum State currentState;
     int line; 
     int c;
@@ -177,6 +177,6 @@ int main(){
         return -1; 
     }
     return 0; 
-    */
+    
 }
 
