@@ -12,7 +12,7 @@ enum Statetype handleNormalState(int c){
         putchar(c);
         state = STRING;
     }
-    if (c=="/"){
+    if (c=='/'){
         state = FWD_SLASH; 
     }
     if (c=='\''){
@@ -98,7 +98,7 @@ enum Statetype handleComState(int c){
     else state = COM;
     return state;
 }
-enum Statetype handleMaybeExitComState(int c){
+enum Statetype handleMaybeEscComState(int c){
     enum Statetype state;
     if (c=='*') state = MAYBE_ESC_COM;
     if (c=='/') state = NORMAL;
