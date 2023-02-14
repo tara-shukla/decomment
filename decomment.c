@@ -23,7 +23,6 @@ void handle_eChar(char c, enum State *current);
 
 int checkState(char c, enum State *current){
     /*if (c=='\n') line++;*/
-    if (*current == normal) handle_Norm(c, current);
     if (*current == fSlash) handle_fSlash(c, current);
     if (*current == sStar) handle_sStar(c, current);
     if (*current ==eStar) handle_eStar(c,current);
@@ -35,8 +34,10 @@ int checkState(char c, enum State *current){
     if (*current == sq_bSlash) handle_sq_bSlash(c,current);
     if (*current == dq_bSlash) handle_dq_bSlash(c,current);
     if (*current == star_bSlash) handle_star_bSlash(c,current);
+    else if (*current == normal) handle_Norm(c, current);
 
 }
+
  void handle_Norm(char c, enum State *current){
     /*from normal state, transitions possible through bSlash, fSlash, sString, eString*/
     if (c=='\\'){
@@ -134,11 +135,15 @@ void handle_eChar(char c, enum State *current){
 /*exit fails if in unterminated comment*/
 int main(){
     enum State currentState;
-    int line = 0;
-    currentState = normal;
+    int line; 
     int c;
-    while (c=getchar()!=EOF){
-        currentState = checkState(c, currentState);
+
+    currentState = normal;
+    line = 0;
+
+    
+    while ((c=getchar()) !=EOF){
+        currentState = checkState(c, &currentState);
     }
     if (currentState == sStar || currentState ==eStar){/* revisit this*/
         fprintf(stderr,"failure: unterminated comment at file end.");
