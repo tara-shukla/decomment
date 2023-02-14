@@ -98,18 +98,23 @@ enum Statetype handleComState(int c){
     else state = COM;
     return state;
 }
+
 enum Statetype handleMaybeEscComState(int c){
     enum Statetype state;
-    if (c=='*') state = MAYBE_ESC_COM;
-    if (c=='/') state = NORMAL;
+    if (c=='*') {
+        state = MAYBE_ESC_COM;
+    }
+    if (c=='/') {
+        putchar(' ');
+        state = NORMAL;
+    }
     else state = COM;
     return state;
 }
 
 /* reads from input stream and writes to output stream after eliminating comments*/
 /*exit fails if in unterminated comment*/
-int main (void)
-{
+int main () {
     int c;
     enum Statetype state = NORMAL;
     int line = 0;
@@ -152,5 +157,6 @@ int main (void)
         fprintf(stderr,("Error: unterminated comment on line %d"),line);
         return EXIT_FAILURE;
     }
+
     return 0;
 }
