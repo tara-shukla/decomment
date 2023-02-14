@@ -40,23 +40,23 @@ int checkState(char c, enum State *current){
  void handle_Norm(char c, enum State *current){
     /*from normal state, transitions possible through bSlash, fSlash, sString, eString*/
     if (c=='\\'){
-        current = bSlash;
+        *current = bSlash;
     }
 
     if (c=='/'){
-        current = fSlash;
+        *current = fSlash;
     }
 
     if (c=='"'){
-        current = sString;
+        *current = sString;
     }
 
     if (c=='\''){
-        current = sChar;
+        *current = sChar;
     }
 
     else {
-        current = normal;
+        *current = normal;
         putchar(c);
     }
 }
@@ -66,24 +66,24 @@ int checkState(char c, enum State *current){
     if (c=='*') current = sStar;
     else {
         if (c=='/') current = fSlash;
-        current = normal;
+        *current = normal;
         putchar('/');
         putchar(c);
     }
 }
 
 void handle_sStar(char c, enum State *current){
-    if (c == '*') current = eStar;
-    if (c=='\\') current = star_bSlash;
-    else current = sStar;
+    if (c == '*') *current = eStar;
+    if (c=='\\') *current = star_bSlash;
+    else *current = sStar;
 }
 
 void handle_eStar(char c, enum State *current){
     if (c == '/') {
-        current = normal;
+        *current = normal;
         putchar(' ');
     }
-    else current = sStar;
+    else *current = sStar;
 }
 
 void handle_bSlash(char c, enum State *current){
@@ -91,42 +91,42 @@ void handle_bSlash(char c, enum State *current){
     else {
         putchar('\\');
         putchar(c); 
-        current = normal;
+        *current = normal;
     }
 }
 
 void handle_sq_bSlash(char c, enum State *current){
     if (c=='n') putchar('/n');  
-    current = sChar;
+    *current = sChar;
 }
 void handle_dq_bSlash(char c, enum State *current){
     if (c=='n') putchar('/n');
-    current = sString;
+    *current = sString;
 }
 void handle_star_bSlash(char c, enum State *current){
     if (c=='n') putchar('/n');
-    current = sStar;
+    *current = sStar;
 }
 
 void handle_sString(char c, enum State *current){
-    if (c=='"') current = eString;
-    if (c=='\\') current = dq_bSlash;
-    else current = sString;
+    if (c=='"') *current = eString;
+    if (c=='\\') *current = dq_bSlash;
+    else *current = sString;
 }
 
 void handle_eString(char c, enum State *current){
-    if (c=='/') current = fSlash;
-    else current = normal;
+    if (c=='/') *current = fSlash;
+    else *current = normal;
 }
 
 void handle_sChar(char c, enum State *current){
-    if (c=='\'') current =eChar;
-    if (c=='\\') current = sq_bSlash;
-    else current = sChar;
+    if (c=='\'') *current =eChar;
+    if (c=='\\') *current = sq_bSlash;
+    else *current = sChar;
 }
 
 void handle_eChar(char c, enum State *current){
-    current = normal; /*handle normal?*/
+    *current = normal; /*handle normal?*/
 }
 
 
