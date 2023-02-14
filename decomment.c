@@ -42,7 +42,6 @@ int dfaStateCheck(char c, enum State *current,int *line){
 }
 
  void handle_Norm(char c, enum State *current){
-    putchar('h');
     /*from normal state, transitions possible through bSlash, fSlash, sString, eString*/
     if (c=='\\'){
         *current = bSlash;
