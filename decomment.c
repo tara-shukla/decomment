@@ -65,6 +65,10 @@ enum Statetype handleStringState(int c){
         putchar(c);
         state = NORMAL;
     }
+    else {
+        putchar(c);
+        state = STRING;
+    }
     return state;
 }
 enum Statetype handleStringEscState(int c){
@@ -73,7 +77,6 @@ enum Statetype handleStringEscState(int c){
     if (c=='n') {
         putchar('\n');
         line++;
-        /*add smthg abt lien here*/
     }
     else {
         putchar ('\\');
@@ -101,8 +104,13 @@ enum Statetype handleFwdSlashState(int c){
 
         state = COM;
     }
+    else if (c=='\n'){
+        putchar('/');
+        putchar('\n');
+    }
     else {
         putchar('/'); 
+        putchar(c);
         state = NORMAL;
     }
     return state;
@@ -181,7 +189,7 @@ int main () {
     }
 
     if ((state==COM)||(state==MAYBE_ESC_COM)){
-        fprintf(stderr,("Error: %d: unterminated comment"),line);
+        fprintf(stderr,("Error: line %d: unterminated comment"),line);
         return EXIT_FAILURE;   
     }
     
