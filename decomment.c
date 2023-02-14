@@ -22,7 +22,7 @@ void handle_sChar(char c, enum State *current);
 void handle_eChar(char c, enum State *current);
 
 
-void dfaStateCheck(char c, enum State *current,int *line){
+int dfaStateCheck(char c, enum State *current,int *line){
     if (c=='\n') line++;
     if (*current == fSlash) handle_fSlash(c, current);/*do i need &s here ? idk*/
     if (*current == sStar) handle_sStar(c, current);
@@ -162,7 +162,7 @@ int main(){
     line = 0;
 
     while ((c=getchar()) !=EOF){
-        dfaStateCheck(c, &currentState,&line);
+        currentState = dfaStateCheck(c, &currentState,&line);
         /*check about current being mod here if not current =*/
     }
     if (currentState == sStar || currentState ==eStar|| currentState==star_bSlash){
