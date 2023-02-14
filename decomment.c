@@ -52,6 +52,10 @@ enum Statetype handleCharEscState(int c){
         line++;
         /*add smthg abt lien here*/
     }
+    else {
+        putchar ('\\');
+        putchar(c);
+    }
     return state;
 }
 enum Statetype handleStringState(int c){
@@ -70,6 +74,10 @@ enum Statetype handleStringEscState(int c){
         putchar('\n');
         line++;
         /*add smthg abt lien here*/
+    }
+    else {
+        putchar ('\\');
+        putchar(c);
     }
     return state;
 }
