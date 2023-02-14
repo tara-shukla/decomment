@@ -88,7 +88,7 @@ void handle_eStar(char c, enum State *current){
 
 void handle_bSlash(char c, enum State *current,int *line){
     if (c=='n') {
-        *line++;
+        line++;
         putchar('\n');
     }
     else {
