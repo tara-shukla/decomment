@@ -111,7 +111,9 @@ enum Statetype handleMaybeEscComState(int c){
         putchar(' ');
         state = NORMAL;
     }
-    else state = COM;
+    else {
+        state = COM;
+    }
     return state;
 }
 
@@ -165,10 +167,8 @@ int main () {
     }
 
     if ((state == COM) || (state = MAYBE_ESC_COM)){
-        fprintf(stderr, state);
         fprintf(stderr,("Error: unterminated comment on line %d"),line);
         return EXIT_FAILURE;
     }
-    else;
     return 0;
 }
