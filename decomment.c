@@ -12,10 +12,10 @@ enum Statetype handleNormalState(int c){
         putchar(c);
         state = STRING;
     }
-    if (c=='/'){
+    else if (c=='/'){
         state = FWD_SLASH; 
     }
-    if (c=='\''){
+    else if (c=='\''){
         putchar(c);
         state = CHAR;
     }
@@ -43,6 +43,7 @@ enum Statetype handleCharState(int c){
     }
     return state;
 }
+
 enum Statetype handleCharEscState(int c){
     enum Statetype state;
     state = CHAR;
@@ -56,7 +57,7 @@ enum Statetype handleCharEscState(int c){
 enum Statetype handleStringState(int c){
     enum Statetype state;
     if (c=='\\') state = STRING_ESC;
-    if (c=='"') {
+    else if (c=='"') {
         putchar(c);
         state = NORMAL;
     }
@@ -78,17 +79,17 @@ enum Statetype handleFwdSlashState(int c){
         putchar('/');
         state = FWD_SLASH;
     }
-    if (c=='"') {
+    else if (c=='"') {
         putchar('/');
         putchar(c);
         state = STRING;
     }
-    if (c=='\'') {
+    else if (c=='\'') {
         putchar('/');
         putchar(c);
         state= CHAR;
     }
-    if (c=='*') {
+    else if (c=='*') {
 
         state = COM;
     }
@@ -110,7 +111,7 @@ enum Statetype handleMaybeEscComState(int c){
     if (c=='*') {
         state = MAYBE_ESC_COM;
     }
-    if (c=='/') {
+    else if (c=='/') {
         putchar(' ');
         state = NORMAL;
     }
