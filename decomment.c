@@ -4,7 +4,7 @@
 
 
 enum Statetype{NORMAL,CHAR,STRING,CHAR_ESC, STRING_ESC,FWD_SLASH,COM,MAYBE_ESC_COM};
-
+int line;
 
 enum Statetype handleNormalState(int c){
     enum Statetype state;
@@ -19,28 +19,26 @@ enum Statetype handleNormalState(int c){
         putchar(c);
         state = CHAR;
     }
-     else {
+    else {
         putchar(c);
         state = NORMAL;
     }
     return state;
-
 }
 
 enum Statetype handleCharState(int c){
     enum Statetype state;
     if (c =='\'') {
-        putchar('b');
+      
         state = NORMAL;
         putchar(c);
     }
-    if(c=='\\'){
+    else if(c=='\\'){
         state = CHAR_ESC;
-        putchar('f');
     }
     else {
         state = CHAR;
-        putchar('a');
+      
         putchar(c);
     }
     return state;
@@ -50,6 +48,7 @@ enum Statetype handleCharEscState(int c){
     state = CHAR;
     if (c=='n') {
         putchar('\n');
+        line++;
         /*add smthg abt lien here*/
     }
     return state;
@@ -68,6 +67,7 @@ enum Statetype handleStringEscState(int c){
     state = STRING;
     if (c=='n') {
         putchar('\n');
+        line++;
         /*add smthg abt lien here*/
     }
     return state;
@@ -125,7 +125,7 @@ enum Statetype handleMaybeEscComState(int c){
 int main () {
     int c;
     enum Statetype state = NORMAL;
-    int line = 0;
+     line = 0;
 
     while ((c = getchar()) != EOF) {
         switch (state) {
