@@ -22,10 +22,15 @@ enum Statetype handleNormalState(int c){
         putchar(c);
         state = CHAR;
     }
+    else if (c=='\n'){
+        putchar('\n');
+        line++;
+    }
     else {
         putchar(c);
         state = NORMAL;
     }
+
     return state;
 }
 
@@ -171,7 +176,6 @@ int main () {
 
     while ((c = getchar()) != EOF) {
         switch (state) {
-            /**/
             case NORMAL:
                 state = handleNormalState(c);
                 break;
@@ -202,7 +206,7 @@ int main () {
                 state = handleMaybeEscComState(c);
                 break;
         }  
-        line++; 
+        
     }
 
 /*Check for exit failure i.e. unterminated comments*/
