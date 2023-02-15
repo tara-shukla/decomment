@@ -1,12 +1,31 @@
-NORMAL
+NORMAL (success)
    ('"') -> STRING
    (('\'')) -> CHAR
    ('/') -> FWDSLASH
-CHAR
-    
-EscChar
-String
-EscString
-FwdSlash
-Com 
-MaybeEscCom
+   other NORMAL
+CHAR(success)
+   (('\''))->NORMAL
+   ('\')-> ESC_CHAR
+   other CHAR
+ESC_Char(success)
+   -->CHAR
+STRING(success)
+    ('\')->ESC_STRING
+    ('"')-> NORMAL
+    other STRING
+ESC_STRING(success)
+    -> STRING
+FWDSLASH(success)
+    ('/')-> FWDSLASH
+    ('"')-> STRING
+    (('''))->CHAR
+    ('*')->COM
+    other NORMAL
+COM (fail)
+    ('*') MAYBE_ESC_COM
+    other COM
+MAYBE_ESC_COM(fail)
+     ('*') MAYBE_ESC_COM
+     ('/') NORMAL
+     other COM
+
