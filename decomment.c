@@ -6,6 +6,7 @@
 enum Statetype{NORMAL,CHAR,STRING,CHAR_ESC, STRING_ESC,FWD_SLASH,COM,MAYBE_ESC_COM};
 /*global var line*/
 int line;
+int thisCommentLine;
 
 
 /*given char c, transitions to STRING, FWD_SLASH, CHAR, and NORMAL depending on c*/
@@ -21,10 +22,6 @@ enum Statetype handleNormalState(int c){
     else if (c=='\''){
         putchar(c);
         state = CHAR;
-    }
-    else if (c=='\n'){
-        putchar('\n');
-        line++;
     }
     else {
         putchar(c);
@@ -43,11 +40,12 @@ enum Statetype handleCharState(int c){
         putchar(c);
     }
     else if(c=='\\'){
+        putchar(c);
         state = CHAR_ESC;
     }
     else {
+        if (c=='\n') line++;
         state = CHAR;
-      
         putchar(c);
     }
     return state;
@@ -57,27 +55,26 @@ enum Statetype handleCharState(int c){
 enum Statetype handleCharEscState(int c){
     enum Statetype state;
     state = CHAR;
-    if (c=='n') {
-        putchar('\n');
-        line++;
-    }
-    else {
-        putchar ('\\');
-        putchar(c);
-    }
+    putchar(c);
+    if (c=='\n') line++;
     return state;
 }
 
 /*given char c, transitions to STRING, STRING_ESC, NORMAL depending on c*/
 enum Statetype handleStringState(int c){
     enum Statetype state;
-    if (c=='\\') state = STRING_ESC;
+    if (c=='\\') {
+        putchar(c);
+        
+        state = STRING_ESC;
+    }
     else if (c=='"') {
         putchar(c);
         state = NORMAL;
     }
     
     else {
+        if (c=='\n') line++;
         putchar(c);
         state = STRING;
     }
@@ -88,15 +85,8 @@ enum Statetype handleStringState(int c){
 enum Statetype handleStringEscState(int c){
     enum Statetype state;
     state = STRING;
-    if (c=='n') {
-        putchar('\n');
-        line++;
-    }
-    
-    else {
-        putchar ('\\');
-        putchar(c);
-    }
+    if (c=='\n') line++;
+    putchar(c);
     return state;
 }
 
@@ -118,12 +108,15 @@ enum Statetype handleFwdSlashState(int c){
         state= CHAR;
     }
     else if (c=='*') {
-
+        thisCommentLine=line;
+        putchar(' ');
         state = COM;
     }
     else if (c=='\n'){
         putchar('/');
         putchar('\n');
+        line++;
+        state = NORMAL;
     }
     else {
         putchar('/'); 
@@ -136,7 +129,9 @@ enum Statetype handleFwdSlashState(int c){
 /*given char c, transitions to MAYBE_ESC_COM,COM depending on c*/
 enum Statetype handleComState(int c){
     enum Statetype state;
-    if (c=='*') state = MAYBE_ESC_COM;
+    if (c=='*') {
+        state = MAYBE_ESC_COM;
+    }
     else if (c=='\n'){
         putchar('\n');
         line++;
@@ -150,10 +145,11 @@ enum Statetype handleComState(int c){
 enum Statetype handleMaybeEscComState(int c){
     enum Statetype state;
     if (c=='*') {
+        
         state = MAYBE_ESC_COM;
     }
     else if (c=='/') {
-        putchar(' ');
+        
         state = NORMAL;
     }
     else if (c==('\n')){
@@ -211,7 +207,7 @@ int main () {
 
 /*Check for exit failure i.e. unterminated comments*/
     if ((state==COM)||(state==MAYBE_ESC_COM)){
-        fprintf(stderr,("Error: line %d: unterminated comment"),line);
+        fprintf(stderr,("Error: line %d: unterminated comment"),thisCommentLine);
         return EXIT_FAILURE;   
     }
     
