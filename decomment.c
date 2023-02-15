@@ -210,7 +210,7 @@ int main () {
     if (state==FWD_SLASH) putchar('/');
 /*Check for exit failure i.e. unterminated comments*/
     if ((state==COM)||(state==MAYBE_ESC_COM)){
-        fprintf(stderr,("Error: line %d: unterminated comment"),thisCommentLine);
+        fprintf(stderr,("Error: line %d: unterminated comment\n"),thisCommentLine);
         return EXIT_FAILURE;   
     }
     
