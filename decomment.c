@@ -24,6 +24,7 @@ enum Statetype handleNormalState(int c){
         state = CHAR;
     }
     else {
+        if(c=='\n')line++;
         putchar(c);
         state = NORMAL;
     }
@@ -187,7 +188,7 @@ int main () {
                 break;
             
             case STRING_ESC:
-                state = handleStringState(c);
+                state = handleStringEscState(c);
                 break;
             
             case FWD_SLASH:
@@ -205,6 +206,8 @@ int main () {
         
     }
 
+    /*corner case last fwdslash*/
+    if (state==FWD_SLASH) putchar('/');
 /*Check for exit failure i.e. unterminated comments*/
     if ((state==COM)||(state==MAYBE_ESC_COM)){
         fprintf(stderr,("Error: line %d: unterminated comment"),thisCommentLine);
