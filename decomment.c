@@ -4,12 +4,13 @@
 
 /*enums for statetypes in dfa*/
 enum Statetype{NORMAL,CHAR,STRING,CHAR_ESC, STRING_ESC,FWD_SLASH,COM,MAYBE_ESC_COM};
-/*global var line*/
+/*global var line count for program*/
 int line;
+/*global var thisCommentLine count for last comment*/
 int thisCommentLine;
 
 
-/*given char c, transitions to STRING, FWD_SLASH, CHAR, and NORMAL depending on c*/
+/*given char c, return state transition to STRING, FWD_SLASH, CHAR, and NORMAL depending on c*/
 enum Statetype handleNormalState(int c){
     enum Statetype state;
     if (c=='"') {
@@ -32,7 +33,7 @@ enum Statetype handleNormalState(int c){
     return state;
 }
 
-/*given char c, transitions to NORMAL, CHAR_ESC,CHAR depending on c*/
+/*given char c, return state transition to NORMAL, CHAR_ESC,CHAR depending on c*/
 enum Statetype handleCharState(int c){
     enum Statetype state;
     if (c =='\'') {
@@ -52,7 +53,7 @@ enum Statetype handleCharState(int c){
     return state;
 }
 
-/*given char c, transitions to CHAR*/
+/*given char c, return state transition to CHAR*/
 enum Statetype handleCharEscState(int c){
     enum Statetype state;
     state = CHAR;
@@ -61,7 +62,7 @@ enum Statetype handleCharEscState(int c){
     return state;
 }
 
-/*given char c, transitions to STRING, STRING_ESC, NORMAL depending on c*/
+/*given char c, return state transition to STRING, STRING_ESC, NORMAL depending on c*/
 enum Statetype handleStringState(int c){
     enum Statetype state;
     if (c=='\\') {
@@ -82,7 +83,7 @@ enum Statetype handleStringState(int c){
     return state;
 }
 
-/*given char c, transitions to STRING*/
+/*given char c, return state transition to STRING*/
 enum Statetype handleStringEscState(int c){
     enum Statetype state;
     state = STRING;
@@ -91,7 +92,7 @@ enum Statetype handleStringEscState(int c){
     return state;
 }
 
-/*given char c, transitions to STRING, FWD_SLASH, CHAR, COM,and NORMAL depending on c*/
+/*given char c, return state transition to STRING, FWD_SLASH, CHAR, COM,and NORMAL depending on c*/
 enum Statetype handleFwdSlashState(int c){
     enum Statetype state;
     if (c=='/') {
@@ -127,7 +128,7 @@ enum Statetype handleFwdSlashState(int c){
     return state;
 }
 
-/*given char c, transitions to MAYBE_ESC_COM,COM depending on c*/
+/*given char c, return state transition to MAYBE_ESC_COM,COM depending on c*/
 enum Statetype handleComState(int c){
     enum Statetype state;
     if (c=='*') {
@@ -142,7 +143,7 @@ enum Statetype handleComState(int c){
     return state;
 }
 
-/*given char c, transitions to MAYBE_ESC_COM,NORMAL,COM depending on c*/
+/*given char c, return state transition to MAYBE_ESC_COM,NORMAL,COM depending on c*/
 enum Statetype handleMaybeEscComState(int c){
     enum Statetype state;
     if (c=='*') {
