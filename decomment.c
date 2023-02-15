@@ -171,6 +171,7 @@ int main () {
 
     while ((c = getchar()) != EOF) {
         switch (state) {
+            /**/
             case NORMAL:
                 state = handleNormalState(c);
                 break;
@@ -200,7 +201,8 @@ int main () {
             case MAYBE_ESC_COM:
                 state = handleMaybeEscComState(c);
                 break;
-        }   
+        }  
+        line++; 
     }
 
 /*Check for exit failure i.e. unterminated comments*/
